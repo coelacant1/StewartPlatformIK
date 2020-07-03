@@ -23,6 +23,8 @@ public:
 	StewartPlatform() {}
 	StewartPlatform(double basePlateRadius, double baseMountingAngle, double platformPlateRadius, double platformMountingAngle, double baseHeight, double maximumLength);
 
+	void setBaseActuatorLength(double length);
+
 	ActuatorLengths calculateIK(Vector3D XYZ);
 	ActuatorLengths calculateIK(Vector3D XYZ, EulerAngles YPR);
 	std::string actuatorOffsetVectorToString();

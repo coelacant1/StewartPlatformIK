@@ -1,7 +1,7 @@
 ﻿  main.cpp
   Generating code
-  1 of 215 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+  30 of 213 functions (14.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    18 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  StewartPlatform.vcxproj -> C:\Users\Steven\source\repos\StewartPlatform\Release\StewartPlatform.exe
+  StewartPlatform.vcxproj -> C:\Users\Steven\Documents\GitHub\StewartPlatformIK\Release\StewartPlatform.exe

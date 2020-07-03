@@ -6,22 +6,6 @@ StewartPlatform::StewartPlatform(double basePlateRadius, double baseMountingAngl
 	this->platformPlateRadius = platformPlateRadius;
 	this->platformMountingAngle = platformMountingAngle;
 
-	/*
-	B1 = Vector3D( basePlateRadius * cos((       baseMountingAngle / 2.0) * Mathematics::PI / 180.0), -basePlateRadius * sin((       baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	B2 = Vector3D( basePlateRadius * cos((       baseMountingAngle / 2.0) * Mathematics::PI / 180.0),  basePlateRadius * sin((       baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	B3 = Vector3D(-basePlateRadius * cos((60.0 + baseMountingAngle / 2.0) * Mathematics::PI / 180.0),  basePlateRadius * sin((60.0 + baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	B4 = Vector3D(-basePlateRadius * cos((60.0 - baseMountingAngle / 2.0) * Mathematics::PI / 180.0),  basePlateRadius * sin((60.0 - baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	B5 = Vector3D(-basePlateRadius * cos((60.0 - baseMountingAngle / 2.0) * Mathematics::PI / 180.0), -basePlateRadius * sin((60.0 - baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	B6 = Vector3D(-basePlateRadius * cos((60.0 + baseMountingAngle / 2.0) * Mathematics::PI / 180.0), -basePlateRadius * sin((60.0 + baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-
-	P1 = Vector3D( platformPlateRadius * cos((60.0 - platformMountingAngle / 2.0) * Mathematics::PI / 180.0), -platformPlateRadius * sin((60.0 - platformMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	P2 = Vector3D( platformPlateRadius * cos((60.0 + platformMountingAngle / 2.0) * Mathematics::PI / 180.0), -platformPlateRadius * sin((60.0 + platformMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	P3 = Vector3D( platformPlateRadius * cos((60.0 + platformMountingAngle / 2.0) * Mathematics::PI / 180.0),  platformPlateRadius * sin((60.0 + platformMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	P4 = Vector3D( platformPlateRadius * cos((60.0 - platformMountingAngle / 2.0) * Mathematics::PI / 180.0),  platformPlateRadius * sin((60.0 - platformMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	P5 = Vector3D(-platformPlateRadius * cos((       platformMountingAngle / 2.0) * Mathematics::PI / 180.0), -platformPlateRadius * sin((       platformMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	P6 = Vector3D(-platformPlateRadius * cos((       platformMountingAngle / 2.0) * Mathematics::PI / 180.0),  platformPlateRadius * sin((       platformMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
-	*/
-
 	B1 = Vector3D(basePlateRadius * cos((baseMountingAngle / 2.0) * Mathematics::PI / 180.0), -basePlateRadius * sin((baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
 	B2 = Vector3D(basePlateRadius * cos((baseMountingAngle / 2.0) * Mathematics::PI / 180.0), basePlateRadius * sin((baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
 	B3 = Vector3D(-basePlateRadius * cos((60.0 + baseMountingAngle / 2.0) * Mathematics::PI / 180.0), basePlateRadius * sin((60.0 + baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
@@ -38,7 +22,11 @@ StewartPlatform::StewartPlatform(double basePlateRadius, double baseMountingAngl
 
 	this->baseHeight = baseHeight;
 	this->maximumLength = maximumLength;
-	baseActuatorLength = StewartPlatform::calculateIK(Vector3D(0, 0, 0)).U;
+	baseActuatorLength = 0;// = StewartPlatform::calculateIK(Vector3D(0, 0, 0)).U;
+}
+
+void StewartPlatform::setBaseActuatorLength(double baseActuatorLength) {
+	this->baseActuatorLength = baseActuatorLength;
 }
 
 ActuatorLengths StewartPlatform::calculateIK(Vector3D XYZ) {
@@ -51,12 +39,12 @@ ActuatorLengths StewartPlatform::calculateIK(Vector3D XYZ) {
 	L5 = P5 + XYZ - B5;
 	L6 = P6 + XYZ - B6;
 
-	bool withinConstraints = L1.Magnitude() > 0 && L1.Magnitude() < maximumLength &&
-		L2.Magnitude() > 0 && L2.Magnitude() < maximumLength &&
-		L3.Magnitude() > 0 && L3.Magnitude() < maximumLength &&
-		L4.Magnitude() > 0 && L4.Magnitude() < maximumLength &&
-		L5.Magnitude() > 0 && L5.Magnitude() < maximumLength &&
-		L6.Magnitude() > 0 && L6.Magnitude() < maximumLength;
+	bool withinConstraints = L1.Magnitude() - baseActuatorLength > 0 && L1.Magnitude() - baseActuatorLength < maximumLength &&
+		L2.Magnitude() - baseActuatorLength > 0 && L2.Magnitude() - baseActuatorLength < maximumLength &&
+		L3.Magnitude() - baseActuatorLength > 0 && L3.Magnitude() - baseActuatorLength < maximumLength &&
+		L4.Magnitude() - baseActuatorLength > 0 && L4.Magnitude() - baseActuatorLength < maximumLength &&
+		L5.Magnitude() - baseActuatorLength > 0 && L5.Magnitude() - baseActuatorLength < maximumLength &&
+		L6.Magnitude() - baseActuatorLength > 0 && L6.Magnitude() - baseActuatorLength < maximumLength;
 
 	return ActuatorLengths(L1.Magnitude() - baseActuatorLength, L2.Magnitude() - baseActuatorLength, L3.Magnitude() - baseActuatorLength, L4.Magnitude() - baseActuatorLength, L5.Magnitude() - baseActuatorLength, L6.Magnitude() - baseActuatorLength, withinConstraints);
 }
@@ -73,12 +61,12 @@ ActuatorLengths StewartPlatform::calculateIK(Vector3D XYZ, EulerAngles YPR) {
 	L5 = q.RotateVector(P5) + XYZ - B5;
 	L6 = q.RotateVector(P6) + XYZ - B6;
 
-	bool withinConstraints = L1.GetLength() > 0 && L1.GetLength() < maximumLength &&
-		L2.GetLength() > 0 && L2.GetLength() < maximumLength &&
-		L3.GetLength() > 0 && L3.GetLength() < maximumLength &&
-		L4.GetLength() > 0 && L4.GetLength() < maximumLength &&
-		L5.GetLength() > 0 && L5.GetLength() < maximumLength &&
-		L6.GetLength() > 0 && L6.GetLength() < maximumLength;
+	bool withinConstraints = L1.GetLength() - baseActuatorLength > 0 && L1.GetLength() - baseActuatorLength < maximumLength &&
+		L2.GetLength() - baseActuatorLength > 0 && L2.GetLength() - baseActuatorLength < maximumLength &&
+		L3.GetLength() - baseActuatorLength > 0 && L3.GetLength() - baseActuatorLength < maximumLength &&
+		L4.GetLength() - baseActuatorLength > 0 && L4.GetLength() - baseActuatorLength < maximumLength &&
+		L5.GetLength() - baseActuatorLength > 0 && L5.GetLength() - baseActuatorLength < maximumLength &&
+		L6.GetLength() - baseActuatorLength > 0 && L6.GetLength() - baseActuatorLength < maximumLength;
 
 	return ActuatorLengths(L1.GetLength() - baseActuatorLength, L2.GetLength() - baseActuatorLength, L3.GetLength() - baseActuatorLength, L4.GetLength() - baseActuatorLength, L5.GetLength() - baseActuatorLength, L6.GetLength() - baseActuatorLength, withinConstraints);
 }
