@@ -6,7 +6,7 @@
 typedef struct RotationMatrix {
 private:
 	Vector3D InitialVector;
-	bool didRotate;
+	bool didRotate = false;
 	std::vector<std::vector<double>> hMatrix;
 
 	Vector3D ConvertCoordinateToVector();

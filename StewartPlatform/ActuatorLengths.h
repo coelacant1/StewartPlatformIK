@@ -3,13 +3,13 @@
 #include "Vector.h"
 
 struct ActuatorLengths {
-	double U;
-	double V;
-	double W;
-	double X;
-	double Y;
-	double Z;
-	bool constraintSuccess;
+	double U = 0.0;
+	double V = 0.0;
+	double W = 0.0;
+	double X = 0.0;
+	double Y = 0.0;
+	double Z = 0.0;
+	bool constraintSuccess = false;
 
 	ActuatorLengths(){}
 	ActuatorLengths(double U, double V, double W, double X, double Y, double Z, bool constraintSuccess) : U{ U }, V{ V }, W{ W }, X{ X }, Y{ Y }, Z{ Z }, constraintSuccess{ constraintSuccess } {}

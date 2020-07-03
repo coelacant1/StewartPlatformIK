@@ -5,6 +5,8 @@ StewartPlatform::StewartPlatform(double basePlateRadius, double baseMountingAngl
 	this->baseMountingAngle = baseMountingAngle;
 	this->platformPlateRadius = platformPlateRadius;
 	this->platformMountingAngle = platformMountingAngle;
+	this->baseHeight = baseHeight;
+	this->maximumLength = maximumLength;
 
 	B1 = Vector3D(basePlateRadius * cos((baseMountingAngle / 2.0) * Mathematics::PI / 180.0), -basePlateRadius * sin((baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
 	B2 = Vector3D(basePlateRadius * cos((baseMountingAngle / 2.0) * Mathematics::PI / 180.0), basePlateRadius * sin((baseMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
@@ -20,13 +22,7 @@ StewartPlatform::StewartPlatform(double basePlateRadius, double baseMountingAngl
 	P5 = Vector3D(-platformPlateRadius * cos((platformMountingAngle / 2.0) * Mathematics::PI / 180.0), -platformPlateRadius * sin((platformMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
 	P6 = Vector3D(platformPlateRadius * cos((60.0 + platformMountingAngle / 2.0) * Mathematics::PI / 180.0), -platformPlateRadius * sin((60.0 + platformMountingAngle / 2.0) * Mathematics::PI / 180.0), 0);
 
-	this->baseHeight = baseHeight;
-	this->maximumLength = maximumLength;
-	baseActuatorLength = 0;// = StewartPlatform::calculateIK(Vector3D(0, 0, 0)).U;
-}
-
-void StewartPlatform::setBaseActuatorLength(double baseActuatorLength) {
-	this->baseActuatorLength = baseActuatorLength;
+	this->baseActuatorLength = StewartPlatform::calculateIK(Vector3D(0, 0, 0)).U;
 }
 
 ActuatorLengths StewartPlatform::calculateIK(Vector3D XYZ) {

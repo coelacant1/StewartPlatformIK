@@ -6,9 +6,9 @@ typedef struct YawPitchRoll {
 private:
 
 public:
-	double Yaw;
-	double Pitch;
-	double Roll;
+	double Yaw = 0.0;
+	double Pitch = 0.0;
+	double Roll = 0.0;
 
 	YawPitchRoll();
 	YawPitchRoll(Vector3D vector);

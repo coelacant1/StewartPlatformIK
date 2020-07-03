@@ -1,17 +1,12 @@
 #include "StewartPlatform.h"
 #include <iostream>
 
-using namespace std;
-
-StewartPlatform sP;
+StewartPlatform sP = StewartPlatform(500.0, 10.0, 500.0, 10.0, 930.0, 450.0);
 
 int main() {
-	sP = StewartPlatform(500.0, 10.0, 500.0, 10.0, 500.0, 500.0);
-	sP.setBaseActuatorLength(sP.calculateIK(Vector3D(0, 0, 0)).U);
-
 	ActuatorLengths aL = sP.calculateIK(Vector3D(0, 0, 100));
 
-	std::cout << aL.ToString() << std::endl << std::endl; 
+	std::cout << aL.ToString() << std::endl << std::endl;
 	std::cout << sP.actuatorOffsetVectorToString() << std::endl << std::endl;
 	std::cout << sP.actuatorVectorsToString() << std::endl << std::endl;
 	std::cout << sP.baseVectorsToString() << std::endl << std::endl;

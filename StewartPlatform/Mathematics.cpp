@@ -1,6 +1,6 @@
 #include "Mathematics.h"
 
-double Mathematics::PI = atan(1.0) * 4;
+double Mathematics::PI = 3.14159265;// atan(1.0) * 4;
 
 double Mathematics::Constrain(double value, double minimum, double maximum) {
 	if (value > maximum)
